@@ -1,0 +1,13 @@
+.work {
+  height: 100px;
+  width: 100px;
+  font-size
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: 0;
+}
+
+.smaller {
+  height: 50px;
+  width: 50px;
+}
