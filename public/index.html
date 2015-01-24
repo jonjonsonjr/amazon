@@ -1,16 +1,23 @@
 <!doctype html>
 <title>Amazon</title>
-<script src="jquery/dist/jquery.min.js"></script>
-<script src="underscore/underscore-min.js"></script>
-<script src="bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="mithril/mithril.min.js"></script>
+<script src="vendor/jquery/dist/jquery.min.js"></script>
+<script src="vendor/underscore/underscore-min.js"></script>
+<script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="vendor/moment/moment.js"></script>
+<script src="vendor/mithril/mithril.min.js"></script>
+<script src="js/models/log.js"></script>
+<script src="js/models/quest.js"></script>
 <script src="js/models/event.js"></script>
 <script src="js/models/item.js"></script>
 <script src="js/models/job.js"></script>
 <script src="js/models/user.js"></script>
+<script src="js/data/jobs.js"></script>
+<script src="js/data/items.js"></script>
+<script src="js/data/quests.js"></script>
 <script src="js/controllers/app.js"></script>
 <script src="js/views/app.js"></script>
 <script src="js/app.js"></script>
+<script src="js/loop.js"></script>
 <script>
 m.module(document, {
   controller: app.controller,

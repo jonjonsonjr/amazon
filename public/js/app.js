@@ -1,79 +1,47 @@
 var app = app || {};
 
 (function () {
-  var job = new app.Job({
-    name: "Depressing Job",
-    pay: 1,
-    difficulty: 5
-  });
+  app.clock = 0;
+  app.day = 1;
+  app.time = moment().hour(0).minute(0).second(0);
 
-  var items = new app.ItemList();
+  app.logs = new app.LogList();
 
-  // Create a catalogue
-  [1, 2, 3, 4].forEach(function (i) {
-    var item = new app.Item({
-      id: i,
-      name: "Item " + i,
-      cost: i * 3,
-      image: "http://placehold.it/100x100",
-      health_mod: new app.Event({
-        name: "Health Mod " + i,
-        description: "This does something",
-        length: 60,
-        effect: function (ticks) {
-          app.user.health(app.user.health() + i);
-        }
-      })
-    });
-    items.push(item);
-  });
-
-  app.items = items;
-
+  // Create user
   app.user = new app.User({
     name: "Jon",
-    job: job,
-    health: 100,
-    money: 100,
+    health: 10,
+    max_health: 100,
+    energy: 10,
+    max_energy: 100,
+    money: 5,
+    job: new app.Job({
+      name: "Depressing Job",
+      pay: 2,
+      difficulty: 10
+    })
   });
+
+  app.user.health_mods().push(new app.Event({
+    name: "Depression",
+    description: "Life is hard, man.",
+    effect: function (ticks) {
+      var user = app.user;
+      var change = -1 * app.day;
+      user.health(user.health() + change);
+      console.log(this.name() + ": " + change + " happiness");
+    }
+  }));
 
   app.user.energy_mods().push(new app.Event({
     name: "Normal Recovery",
     description: "Default energy regeneration of 1 per tick",
     effect: function (ticks) {
-      app.user.energy(app.user.energy() + 1);
+      var user = app.user;
+      user.energy(user.energy() + 1);
     }
   }));
 
-  // Each tick is one second
-  app.interval = setInterval(function () {
-    var user = app.user;
-
-    // Checks
-    if (user.health() <= 0) {
-      app.controller.die();
-      return;
-    }
-
-    // Handle item behavior
-    user.items().forEach(function (item, i) {
-      var health_mod = item.health_mod();
-      var ticks = health_mod.ticks();
-
-      console.log(ticks);
-
-      // TODO: Remove; the effect function should make this obsolete (maybe)
-      if (ticks === health_mod.length()) return;
-
-      health_mod.effect()(ticks);
-      health_mod.ticks(ticks + 1);
-    });
-
-    // Handle energy mods
-    user.energy_mods().forEach(function (mod, i) {
-      mod.effect()(mod.ticks());
-    });
-
-    m.redraw();
-  }, 1000);
+  app.user.quests().push(app.quests.shift()());
+  app.logs.add(new app.Log("New quest: <strong>" + app.user.quests()[0].name() + "</strong>"));
 }());

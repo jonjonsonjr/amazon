@@ -8,6 +8,13 @@
 }
 
 .smaller {
-  height: 50px;
-  width: 50px;
+  height: 30px;
+  width: 30px;
+}
+
+.item {
+  cursor: pointer;
+  height: 100px;
+  width: 100px;
+  border: 1px solid #ccc;
 }
